@@ -1,0 +1,17 @@
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:777:13:SPI5_Write	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:858:6:StartDefaultTask	7
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:236:6:SystemClock_Config	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:160:5:main	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:640:6:IOE_Init	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:649:6:IOE_ITConfig	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:661:6:IOE_Write	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:672:9:IOE_Read	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:685:10:IOE_ReadMultiple	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:694:6:IOE_Delay	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:796:6:LCD_IO_Init	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:805:6:LCD_IO_WriteData	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:816:6:LCD_IO_WriteReg	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:830:10:LCD_IO_ReadData	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:846:6:LCD_Delay	1
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:955:6:HAL_TIM_PeriodElapsedCallback	2
+C:/TouchGFXProjects/SpaceInvaders/Core/Src/main.c:971:6:Error_Handler	1
