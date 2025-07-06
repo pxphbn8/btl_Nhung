@@ -39,9 +39,9 @@ __Sản phẩm:__
 
 ## MÔI TRƯỜNG HOẠT ĐỘNG
 
-- Liệt kê module CPU/dev kit.
+- Module CPU/dev kit.
 STM32F429I-DISC1.
-- Liệt kê các kit, module được sử dụng:
+- Các kit, module được sử dụng:
 
   |Kit,module|Vai trò|
   |--|--|
