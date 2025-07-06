@@ -1,5 +1,4 @@
 # btl_Nhung
-# PROJECT SAMPLE
 
 Trò chơi Space Invaders là trò chời dạng shoot-em-up, trong đó người chơi điều khiển nhân vật di chuyển để tránh hoả lực của kẻ thù và tiêu diệt các mục tiêu.  
 Trò chơi sẽ được xây dựng trên kit STM32F429I-DISC1 kết hợp với thư viện đồ hoạ TouchGFX. Bộ 32F429IDISCOVERY tận dụng khả năng của các vi điều khiển hiệu suất cao STM32F429, cho phép người dùng dễ dàng phát triển các ứng dụng phong phú với giao diện người dùng đồ họa tiên tiến.
@@ -10,11 +9,21 @@ Trò chơi sẽ được xây dựng trên kit STM32F429I-DISC1 kết hợp vớ
 __Đề bài__: _SpaceInvaders._
 
 __Sản phẩm:__
-1. Tính năng
-2. Tính năng
-3. Tính năng
+1. Tính năng: Giao diện đồ họa trực quan (LCD)
+- Trò chơi hiển thị trên màn hình LCD cảm ứng hoặc TFT.
+- Giao diện sử dụng đồ họa từ TouchGFX, giúp hiển thị sinh động tàu vũ trụ, đạn và kẻ địch.
+- Dùng LTDC, DMA2D và SDRAM để tối ưu hiệu suất đồ họa.
+2. Tính năng: Điều khiển bằng Joystick
+- Người chơi điều khiển tàu vũ trụ sang trái/phải bằng joystick.
+- Joystick kết nối qua ADC1 (PA0, PA1) để đọc tọa độ analog X/Y.
+- Phản hồi nhanh, mượt mà và có xử lý hướng di chuyển qua FreeRTOS Queue.
+3. Tính năng: Gameplay tương tác
+- Người chơi có thể bắn đạn để tiêu diệt các tàu địch, hiển thị điểm số, mạng chơi, Game Over.
+- Tàu địch di chuyển theo hàng lượn sóng, bắn trả (nếu mở rộng).
+- Có thể nâng cấp thêm hiệu ứng âm thanh (buzzer).
 - Ảnh chụp minh họa:\
-  ![Ảnh minh họa](https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1-1024x416.png)
+  ![Ảnh minh họa](https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1-1024x416.png)\
+  [Xem video demo tại đây](https://drive.google.com/file/d/1zgXpkZ7LKWBVWoz4N5zUjlDdu6DS54Vn/view?usp=sharing)
 
 ## TÁC GIẢ
 
@@ -31,13 +40,13 @@ __Sản phẩm:__
 
 - Liệt kê module CPU/dev kit.
 STM32F429I-DISC1.
-- Liệt kê các kit, module được sử dụng:
-STM32F429I-DISCO: Dev kit chính với LCD tích hợp
-LCD ILI9341 / RGB565: Màn hình TFT LCD dùng giao tiếp RGB (có thể là màn tích hợp trên F429I-DISCO)
-Joystick:	Điều khiển nhân vật, sử dụng qua ADC chân PA0/PA1
-TouchGFX: Giao diện đồ họa
-SDRAM ngoài: Giao tiếp qua FMC (do cấu hình có dùng FMC)
-I2C3: Có thể dùng cho cảm biến hoặc Audio codec
+- Liệt kê các kit, module được sử dụng:\
+STM32F429I-DISCO: Dev kit chính với LCD tích hợp\
+LCD ILI9341 / RGB565: Màn hình TFT LCD dùng giao tiếp RGB (có thể là màn tích hợp trên F429I-DISCO)\
+Joystick:	Điều khiển nhân vật, sử dụng qua ADC chân PA0/PA1\
+TouchGFX: Giao diện đồ họa\
+SDRAM ngoài: Giao tiếp qua FMC (do cấu hình có dùng FMC)\
+I2C3: Có thể dùng cho cảm biến hoặc Audio codec\
 DMA2D, LTDC: Xử lý đồ họa và truyền dữ liệu đến LCD
 
 ## SO ĐỒ SCHEMATIC
@@ -56,14 +65,12 @@ Ví dụ có thể liệt kê dạng bảng
 
 ### TÍCH HỢP HỆ THỐNG
 
-- Mô tả các thành phần phần cứng và vai trò của chúng: máy chủ, máy trạm, thiết bị IoT, MQTT Server, module cảm biến IoT...
-  Hệ thống gồm 4 thành phần chính:
+  Hệ thống phần cứng gồm 4 thành phần chính:
 -	Kit STM32F429I-DISC1
 -	Mini USB-cable 
 - Joystick
 -	Dây nối
 
-- Mô tả các thành phần phần mềm và vai trò của chúng, vị trí nằm trên phần cứng nào: Front-end, Back-end, Worker, Middleware...
   Kiến trúc phần mềm gồm có 5 thành phần chính:
 -	GameScreenView: Tiếp nhận dữ liệu từ người dung và hiển thị hình ảnh lên màn hình
 -	inputTask: Nhận dữ liệu từ người dụng và gửi vào inputQueue để chờ xử lý
@@ -77,15 +84,97 @@ Ví dụ có thể liệt kê dạng bảng
 - Giải thích một số hàm quan trọng: ý nghĩa của hàm, tham số vào, ra
 
   ```C
-     /**
-      *  Hàm tính ...
-      *  @param  x  Tham số
-      *  @param  y  Tham số
-      */
-     void abc(int x, int y = 2);
+  void StartDefaultTask(void *argument)
+{
+  /* USER CODE BEGIN 5 */
+  /* Vòng lặp vô hạn để đọc giá trị từ joystick */
+  uint32_t count1, count2, count3, count4;
+  uint8_t x1, x2, x3, x4;
+  uint32_t adc_values[2]; // Mảng lưu giá trị ADC cho trục X và Y
+
+  for(;;)
+  {
+    // Bắt đầu chuyển đổi ADC
+    if (HAL_ADC_Start(&hadc1) != HAL_OK)
+    {
+      Error_Handler();
+    }
+    // Đọc giá trị ADC cho cả hai kênh (trục X và Y)
+    if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
+    {
+      adc_values[0] = HAL_ADC_GetValue(&hadc1); // Trục X
+    }
+    if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
+    {
+      adc_values[1] = HAL_ADC_GetValue(&hadc1); // Trục Y
+    }
+    HAL_ADC_Stop(&hadc1);
+
+    // Xử lý trục X: phải (Queue1) và trái (Queue2)
+    count1 = osMessageQueueGetCount(Queue1Handle);
+    if (count1 < 1)
+    {
+      if (adc_values[0] > JOYSTICK_X_RIGHT_THRESHOLD)
+      {
+        x1 = 'R'; // Joystick nghiêng phải
+      }
+      else
+      {
+        x1 = 'N'; // Không có hướng
+      }
+      osMessageQueuePut(Queue1Handle, &x1, 0, 100);
+    }
+
+    count2 = osMessageQueueGetCount(Queue2Handle);
+    if (count2 < 1)
+    {
+      if (adc_values[0] < JOYSTICK_X_LEFT_THRESHOLD)
+      {
+        x2 = 'L'; // Joystick nghiêng trái
+      }
+      else
+      {
+        x2 = 'N'; // Không có hướng
+      }
+      osMessageQueuePut(Queue2Handle, &x2, 0, 100);
+    }
+
+    // Xử lý trục Y: lên (Queue3) và xuống (Queue4)
+    count3 = osMessageQueueGetCount(Queue3Handle);
+    if (count3 < 1)
+    {
+      if (adc_values[1] < JOYSTICK_Y_UP_THRESHOLD)
+      {
+        x3 = 'U'; // Joystick nghiêng lên
+      }
+      else
+      {
+        x3 = 'N'; // Không có hướng
+      }
+      osMessageQueuePut(Queue3Handle, &x3, 0, 100);
+    }
+
+    count4 = osMessageQueueGetCount(Queue4Handle);
+    if (count4 < 1)
+    {
+      if (adc_values[1] > JOYSTICK_Y_DOWN_THRESHOLD)
+      {
+        x4 = 'D'; // Joystick nghiêng xuống
+      }
+      else
+      {
+        x4 = 'N'; // Không có hướng
+      }
+      osMessageQueuePut(Queue4Handle, &x4, 0, 100);
+    }
+
+    osDelay(100); // Đợi 100ms trước khi đọc lại
+  }
   ```
   
 ### KẾT QUẢ
 
 - Các ảnh chụp với caption giải thích.
-- Hoặc video sản phẩm
+-  Hoặc video sản phẩm:\  
+ [Xem video demo tại đây](https://drive.google.com/file/d/1zgXpkZ7LKWBVWoz4N5zUjlDdu6DS54Vn/view?usp=sharing)
+
