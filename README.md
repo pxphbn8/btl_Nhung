@@ -68,11 +68,12 @@ STM32F429I-DISC1.
 
 ### TÍCH HỢP HỆ THỐNG
 
-  Hệ thống phần cứng gồm 4 thành phần chính:
+  Hệ thống phần cứng gồm 5 thành phần chính:
 -	Kit STM32F429I-DISC1
 -	Mini USB-cable 
 - Joystick
 -	Dây nối
+-	buzzer
 
   Kiến trúc phần mềm gồm có 5 thành phần chính:
 -	GameScreenView: Tiếp nhận dữ liệu từ người dung và hiển thị hình ảnh lên màn hình
