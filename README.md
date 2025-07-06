@@ -21,9 +21,11 @@ __Sản phẩm:__
 - Người chơi có thể bắn đạn để tiêu diệt các tàu địch, hiển thị điểm số, mạng chơi, Game Over.
 - Tàu địch di chuyển theo hàng lượn sóng, bắn trả (nếu mở rộng).
 - Có thể nâng cấp thêm hiệu ứng âm thanh (buzzer).
-- Ảnh chụp minh họa:\
-  ![Ảnh minh họa](https://soict.hust.edu.vn/wp-content/uploads/logo-soict-hust-1-1024x416.png)\
-  [Xem video demo tại đây](https://drive.google.com/file/d/1zgXpkZ7LKWBVWoz4N5zUjlDdu6DS54Vn/view?usp=sharing)
+
+- Ảnh chụp minh họa:  
+  ![Ảnh minh họa](https://drive.google.com/uc?export=view&id=1vpG8FJVaQN6zYluGyulI-lgGZGb2ID0u)
+
+  
 
 ## TÁC GIẢ
 
@@ -80,14 +82,11 @@ Ví dụ có thể liệt kê dạng bảng
 
 
 ### ĐẶC TẢ HÀM
-
-- Giải thích một số hàm quan trọng: ý nghĩa của hàm, tham số vào, ra
-
-  ```C
-  void StartDefaultTask(void *argument)
+```c
+void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-  /* Vòng lặp vô hạn để đọc giá trị từ joystick */
+  // Vòng lặp vô hạn để đọc giá trị từ joystick
   uint32_t count1, count2, count3, count4;
   uint8_t x1, x2, x3, x4;
   uint32_t adc_values[2]; // Mảng lưu giá trị ADC cho trục X và Y
@@ -99,6 +98,7 @@ Ví dụ có thể liệt kê dạng bảng
     {
       Error_Handler();
     }
+
     // Đọc giá trị ADC cho cả hai kênh (trục X và Y)
     if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
     {
@@ -108,6 +108,7 @@ Ví dụ có thể liệt kê dạng bảng
     {
       adc_values[1] = HAL_ADC_GetValue(&hadc1); // Trục Y
     }
+
     HAL_ADC_Stop(&hadc1);
 
     // Xử lý trục X: phải (Queue1) và trái (Queue2)
@@ -170,11 +171,12 @@ Ví dụ có thể liệt kê dạng bảng
 
     osDelay(100); // Đợi 100ms trước khi đọc lại
   }
+}
+
   ```
   
 ### KẾT QUẢ
 
-- Các ảnh chụp với caption giải thích.
--  Hoặc video sản phẩm:\  
+-  video sản phẩm: 
  [Xem video demo tại đây](https://drive.google.com/file/d/1zgXpkZ7LKWBVWoz4N5zUjlDdu6DS54Vn/view?usp=sharing)
 
