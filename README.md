@@ -32,9 +32,9 @@ __Sản phẩm:__
 - Thành viên trong nhóm
   |STT|Họ tên|MSSV|Công việc|
   |--:|--|--|--|
-  |1|Nguyễn Huy Hoàng|20215581|Tìm hiểu lên ý tưởng, Thiết kế đồ họa bằng TouchGFX, Phát triển phần mềm điều khiển, Xử lý logic còi|
-  |2|Nguyễn Duy Khương|20215602|Tìm hiểu lên ý tưởng, Tìm hiểu thu thập hình ảnh đồ họa, Phát triển phần mềm điều khiển|
-  |3|Vũ Đức Lương|20215614| Tìm hiểu lên ý tưởng, Xử lý logic Joystick, Phát triển phần mềm điều khiển, Viết báo cáo|
+  |1|Nguyễn Huy Hoàng|20215581|Tìm hiểu lên ý tưởng, Thiết kế đồ họa bằng TouchGFX, Phát triển phần mềm điều khiển,Xử lý logic và hiển thị trò chơi, Xử lý logic còi, Viết báo cáo|
+  |2|Nguyễn Duy Khương|20215602|Tìm hiểu lên ý tưởng, Tìm hiểu thu thập hình ảnh đồ họa, Thiết kế đồ họa bằng TouchGFX, Phát triển phần mềm điều khiển, Xử lý logic và hiển thị trò chơi, Viết báo cáo|
+  |3|Vũ Đức Lương|20215614| Tìm hiểu lên ý tưởng, Thiết kế lắp đặt phần cứng, Xử lý logic Joystick, Phát triển phần mềm điều khiển, Viết báo cáo|
 
 
 ## MÔI TRƯỜNG HOẠT ĐỘNG
@@ -68,12 +68,11 @@ STM32F429I-DISC1.
 
 ### TÍCH HỢP HỆ THỐNG
 
-  Hệ thống phần cứng gồm 5 thành phần chính:
+  Hệ thống phần cứng gồm 4 thành phần chính:
 -	Kit STM32F429I-DISC1
 -	Mini USB-cable 
 - Joystick
 -	Dây nối
--	buzzer
 
   Kiến trúc phần mềm gồm có 5 thành phần chính:
 -	GameScreenView: Tiếp nhận dữ liệu từ người dung và hiển thị hình ảnh lên màn hình
