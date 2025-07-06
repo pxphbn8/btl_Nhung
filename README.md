@@ -23,8 +23,7 @@ __Sản phẩm:__
 - Có thể nâng cấp thêm hiệu ứng âm thanh (buzzer).
 
 - Ảnh chụp minh họa:  
-  ![Ảnh minh họa](https://drive.google.com/uc?export=view&id=1vpG8FJVaQN6zYluGyulI-lgGZGb2ID0u)
-
+[Ảnh minh họa](https://raw.githubusercontent.com/pxphbn8/btl_Nhung/main/images/anh-minh-hoa.jpg)
   
 
 ## TÁC GIẢ
@@ -42,19 +41,21 @@ __Sản phẩm:__
 
 - Liệt kê module CPU/dev kit.
 STM32F429I-DISC1.
-- Liệt kê các kit, module được sử dụng:\
-STM32F429I-DISCO: Dev kit chính với LCD tích hợp\
-LCD ILI9341 / RGB565: Màn hình TFT LCD dùng giao tiếp RGB (có thể là màn tích hợp trên F429I-DISCO)\
-Joystick:	Điều khiển nhân vật, sử dụng qua ADC chân PA0/PA1\
-TouchGFX: Giao diện đồ họa\
-SDRAM ngoài: Giao tiếp qua FMC (do cấu hình có dùng FMC)\
-I2C3: Có thể dùng cho cảm biến hoặc Audio codec\
-DMA2D, LTDC: Xử lý đồ họa và truyền dữ liệu đến LCD
+- Liệt kê các kit, module được sử dụng:
+
+  |Kit,module|Vai trò|
+  |--|--|
+  |STM32F429I-DISCO| Dev kit chính với LCD tích hợp|
+  |LCD ILI9341| RGB565: Màn hình TFT LCD dùng giao tiếp RGB (có thể là màn tích hợp trên F429I-DISCO)|
+  |Joystick| Điều khiển nhân vật, sử dụng qua ADC chân PA0/PA1|
+  |TouchGFX| Giao diện đồ họa|
+  |SDRAM ngoài| Giao tiếp qua FMC (do cấu hình có dùng FMC)|
+  |I2C3| Có thể dùng cho cảm biến hoặc Audio codec|
+  |DMA2D, LTDC| Xử lý đồ họa và truyền dữ liệu đến LCD|
+
 
 ## SO ĐỒ SCHEMATIC
 
-_Cho biết cách nối dây, kết nối giữa các linh kiện_ 
-Ví dụ có thể liệt kê dạng bảng
 |STM32F429|Module ngoại vi|
 |--|--|
 |PA0|VRX của Joystick|
