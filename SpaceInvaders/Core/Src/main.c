@@ -114,6 +114,9 @@ osStatus_t r_state;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
+void Buzzer_LoseLife(void); // Phát âm khi mất mạng
+void Buzzer_GameOver(void); // Phát âm khi thua cuộc
+
 void SystemClock_Config(void);
 static void MX_GPIO_Init(void);
 static void MX_CRC_Init(void);
@@ -183,6 +186,7 @@ int main(void)
   MX_ADC1_Init(); // Khởi tạo ADC cho joystick
   MX_TouchGFX_Init();
   /* USER CODE BEGIN 2 */
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // Đảm bảo còi tắt ban đầu
   /* USER CODE END 2 */
 
   /* Init scheduler */
@@ -554,6 +558,7 @@ static void MX_GPIO_Init(void)
   HAL_GPIO_WritePin(GPIOE, VSYNC_FREQ_Pin|RENDER_TIME_Pin|FRAME_RATE_Pin|MCU_ACTIVE_Pin, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOC, GPIO_PIN_2, GPIO_PIN_RESET);
   HAL_GPIO_WritePin(GPIOD, GPIO_PIN_12|GPIO_PIN_13, GPIO_PIN_RESET);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // Tắt còi ban đầu
   /*Configure GPIO pins : VSYNC_FREQ_Pin RENDER_TIME_Pin FRAME_RATE_Pin MCU_ACTIVE_Pin */
   GPIO_InitStruct.Pin = VSYNC_FREQ_Pin|RENDER_TIME_Pin|FRAME_RATE_Pin|MCU_ACTIVE_Pin;
   GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
@@ -572,6 +577,15 @@ static void MX_GPIO_Init(void)
   GPIO_InitStruct.Pull = GPIO_NOPULL;
   GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
   HAL_GPIO_Init(GPIOD, &GPIO_InitStruct);
+
+
+  /* Configure GPIO pin: PB0 for TMB12A05 buzzer */
+  GPIO_InitStruct.Pin = GPIO_PIN_0;
+  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP; // Push-Pull
+  GPIO_InitStruct.Pull = GPIO_NOPULL;
+  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_LOW;
+  HAL_GPIO_Init(GPIOB, &GPIO_InitStruct);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // Mặc định tắt còi
   /* Cấu hình chân PA0 và PA1 làm ngõ vào analog cho ADC (joystick trục X và Y) */
   GPIO_InitStruct.Pin = GPIO_PIN_0|GPIO_PIN_1;
   GPIO_InitStruct.Mode = GPIO_MODE_ANALOG;
@@ -885,28 +899,14 @@ void StartDefaultTask(void *argument)
     count1 = osMessageQueueGetCount(Queue1Handle);
     if (count1 < 1)
     {
-      if (adc_values[0] > JOYSTICK_X_RIGHT_THRESHOLD)
-      {
-        x1 = 'R'; // Joystick nghiêng phải
-      }
-      else
-      {
-        x1 = 'N'; // Không có hướng
-      }
+      if (adc_values[0] < JOYSTICK_X_LEFT_THRESHOLD) { x1 = 'R'; } else { x1 = 'N'; } // Đẩy trái (ADC thấp) → Phải
       osMessageQueuePut(Queue1Handle, &x1, 0, 100);
     }
 
     count2 = osMessageQueueGetCount(Queue2Handle);
     if (count2 < 1)
     {
-      if (adc_values[0] < JOYSTICK_X_LEFT_THRESHOLD)
-      {
-        x2 = 'L'; // Joystick nghiêng trái
-      }
-      else
-      {
-        x2 = 'N'; // Không có hướng
-      }
+      if (adc_values[0] > JOYSTICK_X_RIGHT_THRESHOLD) { x2 = 'L'; } else { x2 = 'N'; } // Đẩy phải (ADC cao) → Trái
       osMessageQueuePut(Queue2Handle, &x2, 0, 100);
     }
 
@@ -990,4 +990,43 @@ void assert_failed(uint8_t *file, uint32_t line)
      tex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
 }
+
+
 #endif /* USE_FULL_ASSERT */
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+/**
+ * @brief  Play sound for losing a life (3 quick beeps)
+ * @retval None
+ */
+void Buzzer_LoseLife(void)
+{
+  for (int i = 0; i < 3; i++)
+  {
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET); // Bật còi
+    HAL_Delay(100);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // Tắt còi
+    HAL_Delay(100);
+  }
+}
+void Buzzer_GameOver(void)
+{
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET); // Bật còi
+  HAL_Delay(500);
+  HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // Tắt còi
+  HAL_Delay(200);
+  for (int i = 0; i < 2; i++)
+  {
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_SET); // Bật còi
+    HAL_Delay(150);
+    HAL_GPIO_WritePin(GPIOB, GPIO_PIN_0, GPIO_PIN_RESET); // Tắt còi
+    HAL_Delay(150);
+  }
+}
+
+#ifdef __cplusplus
+}
+#endif

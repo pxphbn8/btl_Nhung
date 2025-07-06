@@ -8,6 +8,9 @@
 #include "timers.h"
 #include "stack_macros.h"
 
+extern "C" void Buzzer_LoseLife(void);
+extern "C" void Buzzer_GameOver(void);
+
 // Khởi tạo đối tượng trò chơi và các mảng đạn và kẻ địch
 Game gameInstance;
 Bullet shipBullet[MAX_BULLET];
@@ -35,6 +38,7 @@ uint8_t dt = 0;
 // Nhiệm vụ của task game
 void gameTask(void *argument) {
 	int loopCount = 0;
+	int last_lives = gameInstance.ship.lives; // Lưu số mạng trước đó
 
 	// Khởi tạo vị trí và trạng thái ban đầu cho đạn và kẻ địch
 	for(int i=0; i<MAX_BULLET;i++) {
@@ -102,6 +106,10 @@ void gameTask(void *argument) {
 				gameInstance.ship.updateShipHp(-1);
 				enemy[i].updateDisplayStatus(SHOULD_HIDE);
 				gameInstance.ship.updateCoordinate(104, 260);
+				if (gameInstance.ship.lives < last_lives) {
+				    Buzzer_LoseLife(); // Phát âm khi mất mạng
+				    last_lives = gameInstance.ship.lives;
+				}
 				break;
 			}
 		}
@@ -132,7 +140,10 @@ void gameTask(void *argument) {
 		}
 
 		// Nếu tàu hỏng hết máu, đặt cờ kết thúc trò chơi
-		if(gameInstance.ship.lives <= 0) shouldEndGame = true;
+		if(gameInstance.ship.lives <= 0) {
+			shouldEndGame = true;
+			Buzzer_GameOver(); // Phát âm khi thua cuộc
+		}
 	}
 }
 
