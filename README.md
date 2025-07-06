@@ -33,8 +33,8 @@ __Sản phẩm:__
   |STT|Họ tên|MSSV|Công việc|
   |--:|--|--|--|
   |1|Nguyễn Huy Hoàng|20215581|Tìm hiểu lên ý tưởng, Thiết kế đồ họa bằng TouchGFX, Phát triển phần mềm điều khiển, Xử lý logic còi|
-  |1|Nguyễn Duy Khương|20215602|Tìm hiểu lên ý tưởng, Tìm hiểu thu thập hình ảnh đồ họa, Phát triển phần mềm điều khiển|
-  |1|Vũ Đức Lương|20215614| Tìm hiểu lên ý tưởng, Xử lý logic Joystick, Phát triển phần mềm điều khiển, Viết báo cáo|
+  |2|Nguyễn Duy Khương|20215602|Tìm hiểu lên ý tưởng, Tìm hiểu thu thập hình ảnh đồ họa, Phát triển phần mềm điều khiển|
+  |3|Vũ Đức Lương|20215614| Tìm hiểu lên ý tưởng, Xử lý logic Joystick, Phát triển phần mềm điều khiển, Viết báo cáo|
 
 
 ## MÔI TRƯỜNG HOẠT ĐỘNG
@@ -71,7 +71,7 @@ STM32F429I-DISC1.
   Hệ thống phần cứng gồm 4 thành phần chính:
 -	Kit STM32F429I-DISC1
 -	Mini USB-cable 
-- Joystick
+-       Joystick
 -	Dây nối
 
   Kiến trúc phần mềm gồm có 5 thành phần chính:
@@ -181,6 +181,12 @@ void GameScreenView::setupScreen()
 gameTask sẽ dựa trên các dữ liệu có được từ gameInstance để xử lý logic và cập nhật lại thông tin của gameInstace cho phù hợp. GameScreenView sẽ liên tục polling dữ liệu từ gameInstance để cập nhật lại hiển thị của các đối tượng trên màn hình và hiển thị cho người chơi
   
 ### KẾT QUẢ
+- Giao diện menu
+![Giao diện menu](https://raw.githubusercontent.com/pxphbn8/btl_Nhung/main/images/anh-minh-hoa.jpg)
+- Giao diện trò chơi
+![Giao diện trò chơi](https://raw.githubusercontent.com/pxphbn8/btl_Nhung/main/images/Giao-dien-tro-choi.jpg)
+- Giao diện kết thúc
+![Giao diện trò chơi](https://raw.githubusercontent.com/pxphbn8/btl_Nhung/main/images/Giao-dien-ket-thuc.jpg)
 
 -  video sản phẩm: 
  [Xem video demo tại đây](https://drive.google.com/file/d/1pMrIorqWK59BUyRV0bhFvDTd9gOwnE5x/view?usp=sharing)
