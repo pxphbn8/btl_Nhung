@@ -32,9 +32,9 @@ __Sản phẩm:__
 - Thành viên trong nhóm
   |STT|Họ tên|MSSV|Công việc|
   |--:|--|--|--|
-  |1|Nguyễn Huy Hoàng|20215581|hiện thị oled, hiệu ứng, và xử lý ngắt|
-  |1|Nguyễn Duy Khương|20215602|hiện thị oled, hiệu ứng, và xử lý ngắt|
-  |1|Vũ Đức Lương|20215614|hiện thị oled, hiệu ứng, và xử lý ngắt|
+  |1|Nguyễn Huy Hoàng|20215581|Tìm hiểu lên ý tưởng, Thiết kế đồ họa bằng TouchGFX, Phát triển phần mềm điều khiển, Xử lý logic còi|
+  |1|Nguyễn Duy Khương|20215602|Tìm hiểu lên ý tưởng, Tìm hiểu thu thập hình ảnh đồ họa, Phát triển phần mềm điều khiển|
+  |1|Vũ Đức Lương|20215614| Tìm hiểu lên ý tưởng, Xử lý logic Joystick, Phát triển phần mềm điều khiển, Viết báo cáo|
 
 
 ## MÔI TRƯỜNG HOẠT ĐỘNG
@@ -60,8 +60,8 @@ STM32F429I-DISC1.
 |--|--|
 |PA0|VRX của Joystick|
 |PA1|VRY củaJoystick|
-|Nguồn 5V|chân dương còi TMB12A05|
-|PB0|chân âm còi TMB12A05|
+|PB0|chân dương còi TMB12A05|
+|GND|chân âm còi TMB12A05|
 
 
 
@@ -87,7 +87,7 @@ STM32F429I-DISC1.
 void StartDefaultTask(void *argument)
 {
   /* USER CODE BEGIN 5 */
-  // Vòng lặp vô hạn để đọc giá trị từ joystick
+  /* Vòng lặp vô hạn để đọc giá trị từ joystick */
   uint32_t count1, count2, count3, count4;
   uint8_t x1, x2, x3, x4;
   uint32_t adc_values[2]; // Mảng lưu giá trị ADC cho trục X và Y
@@ -99,7 +99,6 @@ void StartDefaultTask(void *argument)
     {
       Error_Handler();
     }
-
     // Đọc giá trị ADC cho cả hai kênh (trục X và Y)
     if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK)
     {
@@ -109,35 +108,20 @@ void StartDefaultTask(void *argument)
     {
       adc_values[1] = HAL_ADC_GetValue(&hadc1); // Trục Y
     }
-
     HAL_ADC_Stop(&hadc1);
 
     // Xử lý trục X: phải (Queue1) và trái (Queue2)
     count1 = osMessageQueueGetCount(Queue1Handle);
     if (count1 < 1)
     {
-      if (adc_values[0] > JOYSTICK_X_RIGHT_THRESHOLD)
-      {
-        x1 = 'R'; // Joystick nghiêng phải
-      }
-      else
-      {
-        x1 = 'N'; // Không có hướng
-      }
+      if (adc_values[0] < JOYSTICK_X_LEFT_THRESHOLD) { x1 = 'R'; } else { x1 = 'N'; } // Đẩy trái (ADC thấp) → Phải
       osMessageQueuePut(Queue1Handle, &x1, 0, 100);
     }
 
     count2 = osMessageQueueGetCount(Queue2Handle);
     if (count2 < 1)
     {
-      if (adc_values[0] < JOYSTICK_X_LEFT_THRESHOLD)
-      {
-        x2 = 'L'; // Joystick nghiêng trái
-      }
-      else
-      {
-        x2 = 'N'; // Không có hướng
-      }
+      if (adc_values[0] > JOYSTICK_X_RIGHT_THRESHOLD) { x2 = 'L'; } else { x2 = 'N'; } // Đẩy phải (ADC cao) → Trái
       osMessageQueuePut(Queue2Handle, &x2, 0, 100);
     }
 
@@ -172,12 +156,32 @@ void StartDefaultTask(void *argument)
 
     osDelay(100); // Đợi 100ms trước khi đọc lại
   }
+  /* USER CODE END 5 */
 }
-
   ```
+Dữ liệu điều khiển được gửi vào các hàng đợi trong StartDefaultTask, sau đó được GameScreenView kiểm tra (poll) và lấy ra trong mỗi lượt cập nhật của game.
+
+```c
+void GameScreenView::setupScreen()
+{
+	GameScreenViewBase::setupScreen();
+  osThreadTerminate(gameTaskHandle);
+	const osThreadAttr_t gameTask_attributes = {
+	  .name = "gameTask", 
+	  .stack_size = 8192 * 2,  
+	  .priority = (osPriority_t) osPriorityNormal, 
+	};
+
+	gameTaskHandle = osThreadNew(gameTask, NULL, &gameTask_attributes);
+	shouldEndGame = false;
+	shouldStopTask = false;
+	shouldStopScreen = false;
+}
+```
+gameTask sẽ dựa trên các dữ liệu có được từ gameInstance để xử lý logic và cập nhật lại thông tin của gameInstace cho phù hợp. GameScreenView sẽ liên tục polling dữ liệu từ gameInstance để cập nhật lại hiển thị của các đối tượng trên màn hình và hiển thị cho người chơi
   
 ### KẾT QUẢ
 
 -  video sản phẩm: 
- [Xem video demo tại đây](https://drive.google.com/file/d/1zgXpkZ7LKWBVWoz4N5zUjlDdu6DS54Vn/view?usp=sharing)
+ [Xem video demo tại đây](https://drive.google.com/file/d/1pMrIorqWK59BUyRV0bhFvDTd9gOwnE5x/view?usp=sharing)
 
