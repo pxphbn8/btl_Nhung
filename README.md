@@ -71,7 +71,7 @@ STM32F429I-DISC1.
   Hệ thống phần cứng gồm 4 thành phần chính:
 -	Kit STM32F429I-DISC1
 -	Mini USB-cable 
--       Joystick
+- Joystick
 -	Dây nối
 
   Kiến trúc phần mềm gồm có 5 thành phần chính:
